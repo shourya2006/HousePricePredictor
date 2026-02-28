@@ -4,7 +4,7 @@
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-latest-orange.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## From Predictive Analytics to Market Insights
+## From Predictive Analytics to Autonomous Investment Advice
 
 ### Project Overview
 
