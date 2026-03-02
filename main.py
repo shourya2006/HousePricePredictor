@@ -40,7 +40,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def load_model():
-    return joblib.load('rf_model.jb')
+    return joblib.load('./Model/rf_model.jb')
 
 model = load_model()
 
