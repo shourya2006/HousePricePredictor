@@ -1,4 +1,3 @@
-```
 import os
 import joblib
 import pandas as pd
@@ -132,4 +131,3 @@ def find_comparables(features: Dict[str, Any], n: int = 5) -> List[Dict[str, Any
             "similarity_score": round(float(row['_similarity']), 3),
         })
     return comps
-```
