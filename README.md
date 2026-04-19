@@ -2,63 +2,55 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-latest-orange.svg)](https://scikit-learn.org/)
+[![LangChain](https://img.shields.io/badge/LangChain-latest-green.svg)](https://langchain.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ## From Predictive Analytics to Autonomous Investment Advice
 
 ### Project Overview
 
-This project involves the design and implementation of an analytics system that predicts property prices and evolves into an agentic AI real estate advisory assistant.
+This project is a two-part educational journey. It begins as a classical machine learning application built to predict property prices, and evolves into a cutting-edge **Agentic AI Real Estate Advisory Assistant**.
 
-- **Milestone 1:** The system applies classical machine learning techniques to historical listing data and location attributes to predict property values and analyze market drivers.
-- **Milestone 2:** The same system is extended into an agent-based AI application that autonomously reasons about property characteristics, retrieves market insights, and generates investment recommendations.
-
-The project emphasizes real-world real estate decision-making, progressive development from predictive analytics to agentic AI workflows, and public deployment.
-
----
-
-### Constraints & Requirements
-
-- **Development Environment:** Jupyter Notebooks, Streamlit
-- **ML Pipeline:** Scikit-Learn (RandomForestRegressor, LinearRegression, StandardScaler)
-- **Data Source:** Ames Housing Dataset
+- **Milestone 1:** The system applies classical machine learning pipelines to historical listing data and location attributes to predict property values and analyze market drivers.
+- **Milestone 2:** The system is supercharged into an agent-based AI application (using LangGraph and OpenAI) that autonomously reasons about property characteristics, retrieves market insights via RAG, and generates downloadable investment reports.
 
 ---
 
 ### Technology Stack
 
-| Component               | Technology                                               |
-| :---------------------- | :------------------------------------------------------- |
+| Component                     | Technology                                               |
+| :---------------------------- | :------------------------------------------------------- |
 | **Machine Learning**    | Random Forest Regressor, Linear Regression, Scikit-Learn |
-| **Data Processing**     | Pandas, Numpy, Label Encoding                            |
+| **Agentic Framework**   | LangChain, LangGraph, OpenAI (GPT-4o-mini)               |
+| **Vector Database**     | ChromaDB, OpenAI Embeddings                              |
 | **UI Framework**        | Streamlit, Custom HTML/CSS                               |
-| **EDA & Visualization** | Matplotlib, Seaborn, Plotly                              |
+| **PDF Generation**      | ReportLab                                                |
+| **EDA & Visualization** | Pandas, Matplotlib, Seaborn                              |
 
 ---
 
 ### Milestones & Deliverables
 
-#### Milestone 1: ML-Based Price Prediction
+#### Milestone 1: ML-Based Price Predictor
 
-**Objective:**
-Identify the core drivers of house prices and develop an accurate predictive model using a custom machine learning pipeline.
+**Objective:** Identify the core drivers of house prices and develop an accurate predictive model using a custom machine learning pipeline, deployed to a clean UI.
 
 **Key Deliverables:**
 
 - **Exploratory Data Analysis (EDA):** Comprehensive correlation heatmaps and distribution graphs.
-- **Feature Engineering:** Handling of null values and categorical label encoding.
 - **Robust ML Pipeline:** A seamless Scikit-Learn pipeline integrating data scaling and predictive regression.
-- **Model Evaluation:** Performance metrics computing R-Squared ($R^2$) scores to measure model accuracy.
+- **Interactive UI:** A Streamlit dashboard allowing users to input property features (like square footage, year built, garage size) to get real-time price inferences from the trained `rf_model.jb`.
 
-#### Milestone 2: Interactive Estimator Application
+#### Milestone 2: Agentic AI Real Estate Advisor
 
-**Objective:** Deploy the predictive model into a clean, minimal user interface allowing for real-time inference.
+**Objective:** Transform the basic predictive model into an autonomous AI agent capable of dynamic reasoning, market research, and report generation.
 
 **Key Deliverables:**
 
-- Working local web application with an intuitive UI (Streamlit).
-- Dynamic categorical mapping system (translating natural String inputs to ML-expected LabelEncodings).
-- Organized 3-column component structure.
+- **RAG Knowledge Base:** Integrated ChromaDB to store and retrieve real estate market trends, investment strategies, and localized housing reports.
+- **Auto-Routing ReAct Agent:** Built a conversational LangGraph agent that intelligently routes human queries to the correct backend tools (Price Predictor, Market Insights RAG, or Comparable Sales Finder) without manual intervention.
+- **Agentic Tooling:** Custom tools enabling the LLM to execute python functions and query the `AmesHousing` dataset for similar properties using weighted Euclidean distance.
+- **Professional Report Generation:** A standalone module that captures the agent's context and generates a polished, downloadable PDF Advisory Report using `reportlab`.
 
 ---
 
@@ -66,18 +58,18 @@ Identify the core drivers of house prices and develop an accurate predictive mod
 
 This project was developed collaboratively by the following team members:
 
-| Team Member          | Tasks & Responsibilities                                                           |
-| :------------------- | :--------------------------------------------------------------------------------- |
-| **Shourya Bafna**    | Data Exploration & Preprocessing (EDA, Data Cleaning, Heatmaps)                    |
-| **Aditya Bharadwaj** | Feature Engineering & Data Transformation (Null handling, Label Encoding)          |
-| **Daksh Batra**      | Model Selection & Pipeline Architecture (Scikit-Learn Regression, Feature Scaling) |
-| **Om Yadav**         | UI/UX Engineering & Web App Deployment (Streamlit layout, Frontend mappings)       |
+| Team Member                | Tasks & Responsibilities                                                                 |
+| :------------------------- | :--------------------------------------------------------------------------------------- |
+| **Shourya Bafna**    | RAG Setup & conversational Chat Agent architecture (`rag_setup.py`, `chat_agent.py`) |
+| **Aditya Bharadwaj** | Backend AI Tooling & dataset utility functions (`tools.py`)                            |
+| **Daksh Batra**      | LangGraph workflow orchestration & state management (`graph.py`, `state.py`)         |
+| **Om Yadav**         | Frontend UI/UX Engineering & Web App Deployment (Streamlit layout)                       |
 
 ---
 
 ### Installation & Setup
 
-Follow these instructions to run both the analytical notebooks and the frontend machine learning application locally on your machine.
+Follow these instructions to run the Agentic Streamlit application locally.
 
 **1. Clone the repository**
 
@@ -92,18 +84,25 @@ cd HousePricePredictor
 pip install -r requirements.txt
 ```
 
-**3. Run the Streamlit Web Application**
-To interact with the frontend estimator UI:
+**3. Configure Environment Variables**
+Create a `.env` file in the root directory and add your OpenAI API key (required for the AI Agent and embeddings):
+
+```env
+OPENAI_API_KEY=your-api-key-here
+```
+
+**4. Initialize the Vector Database (One-time setup)**
+Before using the AI Advisor, you must build the local ChromaDB vector store:
+
+```bash
+python agent/rag_setup.py
+```
+
+*(This will embed the `knowledge_base` and create a `chroma_db` folder).*
+
+**5. Run the Streamlit Web Application**
+Launch the two-tab dashboard (Price Estimator & AI Advisor):
 
 ```bash
 streamlit run main.py
 ```
-
-**4. View the Analytical Notebook**
-To explore the core ML pipeline, feature engineering, and data processing steps behind the scenes:
-
-```bash
-jupyter notebook app.ipynb
-```
-
-> **Note:** Ensure you have the datasets present in the root directory before running the Jupyter Notebook cells.
