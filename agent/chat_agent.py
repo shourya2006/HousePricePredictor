@@ -82,6 +82,7 @@ def predict_property_price(
     mas_vnr_area: float = 0.0,
     first_flr_sf: float = 1000.0,
 ) -> str:
+    """Predicts a property's market price using a Random Forest model."""
     features = {
         'overall_qual':   overall_qual,
         'gr_liv_area':    gr_liv_area,
@@ -115,6 +116,7 @@ def predict_property_price(
 
 @tool
 def get_market_insights(query: str) -> str:
+    """Retrieve market trends and risk analysis from the knowledge base."""
     chunks = retrieve_market_insights(query, k=5)
     return "\n\n---\n\n".join(chunks)
 
@@ -128,6 +130,7 @@ def find_comparable_properties(
     full_bath: int = 2,
     n: int = 5,
 ) -> str:
+    """Find comparable sold properties based on input features."""
     features = {
         'overall_qual': overall_qual,
         'gr_liv_area':  gr_liv_area,
