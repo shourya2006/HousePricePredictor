@@ -8,7 +8,6 @@ load_dotenv()
 
 st.set_page_config(
     page_title="AI Real Estate Advisor",
-    page_icon="🏡",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -192,7 +191,7 @@ model = load_model()
 
 st.markdown("""
 <div class="app-header">
-    <p class="app-title">🏡 AI Real Estate <span>Advisor</span></p>
+    <p class="app-title">AI Real Estate <span>Advisor</span></p>
     <p class="app-subtitle">
         LangGraph Agentic AI · ChromaDB RAG · OpenAI GPT-4o-mini · Ames Housing Dataset
     </p>
@@ -200,7 +199,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-tab1, tab2 = st.tabs(["🔢  Price Estimator", "🤖  AI Advisor"])
+tab1, tab2 = st.tabs(["Price Estimator", "AI Advisor"])
 
 
 
@@ -265,7 +264,7 @@ with tab2:
 
     # ── LEFT PANEL: Property Context ─────────────────────────────────────────
     with left_col:
-        st.markdown('<div class="sec-hdr">🏠 Property Context</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-hdr">Property Context</div>', unsafe_allow_html=True)
         st.caption("Scroll to edit property details and preferences.")
 
         # ── Scrollable inputs panel ────────────────────────────────────────
@@ -313,7 +312,7 @@ with tab2:
         st.markdown('<hr class="styled-hr">', unsafe_allow_html=True)
 
         # ── PDF Report Generation ────────
-        st.markdown('<div class="sec-hdr">📄 Full Advisory Report</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-hdr">Full Advisory Report</div>', unsafe_allow_html=True)
         st.caption("Runs all 5 agent nodes and generates a downloadable PDF.")
 
         gen_pdf_btn = st.button(
@@ -389,19 +388,19 @@ with tab2:
                 <div style="background:#0f172a; border:1px solid #1e293b; border-radius:12px;
                      padding:20px 22px; margin-bottom: 8px;">
                     <p style="color:#63b3ed; font-size:14px; font-weight:600; margin:0 0 8px 0;">
-                        👋 Hello! I'm your AI Real Estate Advisor.
+                        Hello! I'm your AI Real Estate Advisor.
                     </p>
                     <p style="color:#94a3b8; font-size:13px; line-height:1.7; margin:0;">
                         I automatically pick the right tool based on your question. Try asking me:
                     </p>
                     <ul style="color:#64748b; font-size:13px; margin-top:8px; line-height:2;">
-                        <li>💰 <em>"What's the estimated price for this property?"</em></li>
-                        <li>📈 <em>"Is this a good investment? What are the market trends?"</em></li>
-                        <li>🏘️ <em>"Show me comparable properties that have sold recently."</em></li>
-                        <li>🧠 <em>"Analyze the risk factors for this purchase."</em></li>
+                        <li><em>"What's the estimated price for this property?"</em></li>
+                        <li><em>"Is this a good investment? What are the market trends?"</em></li>
+                        <li><em>"Show me comparable properties that have sold recently."</em></li>
+                        <li><em>"Analyze the risk factors for this purchase."</em></li>
                     </ul>
                     <p style="color:#475569; font-size:11px; margin: 8px 0 0 0;">
-                        To generate a full PDF advisory report, click <strong>"📄 Generate PDF Report"</strong> on the left.
+                        To generate a full PDF advisory report, click <strong>"Generate PDF Report"</strong> on the left.
                     </p>
                 </div>
             </div>
@@ -490,7 +489,7 @@ with tab2:
                         stream_md.markdown(response_text.replace("$", "&#36;"))
                     except Exception as e:
                         import traceback
-                        response_text = f"⚠️ Error: {e}\n```\n{traceback.format_exc()}\n```"
+                        response_text = f"Error: {e}\n```\n{traceback.format_exc()}\n```"
                         stream_md.markdown(response_text)
 
             st.session_state.chat_messages.append({

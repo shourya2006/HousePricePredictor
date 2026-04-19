@@ -218,7 +218,7 @@ def generate_pdf_report(
 
     # ── HEADER BANNER ─────────────────────────────────────────────────────────
     header_data = [[
-        Paragraph("🏡 AI Real Estate Advisory Report", styles["title"]),
+        Paragraph("AI Real Estate Advisory Report", styles["title"]),
         Paragraph(f"Generated: {now}", styles["subtitle"]),
     ]]
     header_table = Table(header_data, colWidths=[6.5 * inch])
