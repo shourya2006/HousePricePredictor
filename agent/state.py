@@ -40,7 +40,6 @@ class AgentState(TypedDict):
     """
     # Input
     property_features: PropertyFeatures
-    user_preferences: Dict[str, Any]    
 
     # Node 1: Price Predictor
     predicted_price: Optional[float]

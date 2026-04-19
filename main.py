@@ -286,11 +286,7 @@ with tab2:
             ctx_drv_lbl = st.selectbox("Paved Driveway", list(paved_drive_map), index=2, key="ctx_drv")
             ctx_roof_lbl= st.selectbox("Roof Style", list(roof_style_map), index=1, key="ctx_roof")
 
-            st.markdown("---")
-            st.markdown("**📋 Investor Preferences**")
-            horizon_lbl  = st.selectbox("Horizon", list(horizon_map), index=1, key="ctx_hor")
-            strategy_lbl = st.selectbox("Strategy", list(strategy_map), index=0, key="ctx_strat")
-            budget_goal  = st.text_input("Budget Goal", placeholder="e.g. $250,000", key="ctx_budget")
+
 
         property_context = {
             "overall_qual":   ctx_qual,
@@ -312,11 +308,7 @@ with tab2:
             "open_porch_sf":  0.0,
             "bsmt_full_bath": 0,
         }
-        user_preferences = {
-            "investment_horizon": horizon_map[horizon_lbl],
-            "strategy":           strategy_map[strategy_lbl],
-            "budget_goal":        budget_goal or "not specified",
-        }
+
 
         st.markdown('<hr class="styled-hr">', unsafe_allow_html=True)
 
@@ -325,7 +317,7 @@ with tab2:
         st.caption("Runs all 5 agent nodes and generates a downloadable PDF.")
 
         gen_pdf_btn = st.button(
-            "📄 Generate PDF Report",
+            "Generate PDF Report",
             use_container_width=True,
             key="gen_pdf_btn",
         )
@@ -338,7 +330,6 @@ with tab2:
 
                     report_data = run_advisory_agent(
                         property_features=property_context,
-                        user_preferences=user_preferences,
                     )
 
                     if "error" not in report_data:
@@ -356,9 +347,9 @@ with tab2:
                     st.code(traceback.format_exc())
 
         if st.session_state.pdf_ready and st.session_state.pdf_bytes:
-            st.success("✅ Report ready!")
+            st.success("Report ready!")
             st.download_button(
-                label="⬇️  Download PDF",
+                label="Download PDF",
                 data=st.session_state.pdf_bytes,
                 file_name="real_estate_advisory_report.pdf",
                 mime="application/pdf",
@@ -370,7 +361,7 @@ with tab2:
 
 
         st.markdown('<div class="clear-btn">', unsafe_allow_html=True)
-        if st.button("🗑️  Clear Chat History", use_container_width=True, key="clear_btn"):
+        if st.button("Clear Chat History", use_container_width=True, key="clear_btn"):
             st.session_state.chat_messages = []
             st.session_state.pdf_bytes = None
             st.session_state.pdf_ready = False
