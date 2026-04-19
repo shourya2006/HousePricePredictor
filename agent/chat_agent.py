@@ -185,67 +185,6 @@ def _get_llm():
     return _llm
 
 
-# ── Core Chat Function ────────────────────────────────────────────────────────
-
-def run_chat(
-    user_message: str,
-    conversation_history: list,
-    property_context: dict = None,
-    max_tool_rounds: int = 6,
-) -> dict:
-    llm_with_tools = _get_llm().bind_tools(ALL_TOOLS)
-
-    system_prompt = _build_system_prompt(property_context)
-    messages: list[BaseMessage] = [SystemMessage(content=system_prompt)]
-
-    for msg in conversation_history:
-        if msg["role"] == "user":
-            messages.append(HumanMessage(content=msg["content"]))
-        elif msg["role"] == "assistant":
-            messages.append(AIMessage(content=msg["content"]))
-
-    messages.append(HumanMessage(content=user_message))
-
-    tools_used = []
-
-    for _ in range(max_tool_rounds):
-        response = llm_with_tools.invoke(messages)
-        if not response.tool_calls:
-            return {
-                "response":   response.content,
-                "tools_used": tools_used,
-            }
-
-        messages.append(response)
-
-        for tc in response.tool_calls:
-            tool_name = tc["name"]
-            tool_args = tc["args"]
-            tools_used.append(tool_name)
-
-            tool_obj = TOOL_MAP.get(tool_name)
-            if tool_obj is None:
-                tool_result = f"Error: unknown tool '{tool_name}'"
-            else:
-                try:
-                    tool_result = tool_obj.invoke(tool_args)
-                except Exception as e:
-                    tool_result = f"Tool error: {e}"
-
-            messages.append(
-                ToolMessage(
-                    content=str(tool_result),
-                    tool_call_id=tc["id"],
-                    name=tool_name,
-                )
-            )
-    final = llm_with_tools.invoke(messages)
-    return {
-        "response":   final.content or "I wasn't able to complete that request. Please try again.",
-        "tools_used": tools_used,
-    }
-
-
 # ── Streaming Chat Function ───────────────────────────────────────────────────
 
 def stream_chat(
